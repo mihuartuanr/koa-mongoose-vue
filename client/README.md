@@ -33,6 +33,6 @@ npm i -D node-sass sass-loader@7
 # 注册、登陆加密
 npm i -S crypto-js
 
-# 网络请求
+# 网络请求,koa2-cors使后端koa支持跨域
 npm i -S axios
 ```

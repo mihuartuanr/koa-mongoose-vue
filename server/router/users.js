@@ -23,17 +23,17 @@ const routes = [
   {
     path: '/',
     method: 'POST',
-    handle: (ctx) => {
+    handle: async (ctx) => {
       const { action } = ctx.query;
       switch (action) {
         case 'register':
-          register(ctx);
+          await register(ctx);
           break;
         case 'login':
-          login(ctx);
+          await login(ctx);
           break;
         default:
-          list(ctx);
+          await list(ctx);
       }
     }
   },
