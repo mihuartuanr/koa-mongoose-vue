@@ -13,31 +13,31 @@ const userSchema = mongoose.Schema({
     type: String,
     required: true,
     select: false
-  }
+  },
   alias: {
     type: String,
-    select: false,
+    select: false
   },
   telephone: {
     type: String,
-    select: false,
+    select: false
   },
   email: {
     type: String,
-    select: false,
+    select: false
   },
   department: {
     type: Array,
-    select: false,
+    select: false
   },
   job: {
     type: String,
-    select: false,
+    select: false
   },
   role: {
     type: String,
-    select: false,
-  },
+    select: false
+  }
 })
 
 module.exports = mongoose.model('User', userSchema);

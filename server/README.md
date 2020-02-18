@@ -116,6 +116,9 @@ app.use(...router.routes).use(...router.allowedMethods);
 
 * 注册接口
 * 登陆接口
+```
+koa-body必须在，用到ctx.request.body的中间件的前边注册。
+```
 
 
 * Jwt认证

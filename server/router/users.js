@@ -2,7 +2,14 @@ const Router = require('@koa/router');
 const controls = require('../control/users');
 const routerUtils = require('../utils/router');
 
-const { register, list, get, update, drop } = controls;
+const {
+  register,
+  login,
+  list,
+  get,
+  update,
+  drop
+} = controls;
 const router = new Router({
   prefix: '/users'
 });
@@ -14,10 +21,21 @@ const routes = [
     handle: list
   },
   {
-    path: '/register',
+    path: '/',
     method: 'POST',
-    payload: {},
-    handle: register
+    handle: (ctx) => {
+      const { action } = ctx.query;
+      switch (action) {
+        case 'register':
+          register(ctx);
+          break;
+        case 'login':
+          login(ctx);
+          break;
+        default:
+          list(ctx);
+      }
+    }
   },
   {
     path: '/:id',

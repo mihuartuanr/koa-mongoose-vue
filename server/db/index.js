@@ -3,7 +3,8 @@ const DB = require('../config/db');
 
 const { port, host, database } = DB;
 const DB_URL = `mongodb://${host}:${port}/${database}`;
-const db = mongoose.connect(DB_URL);
+mongoose.connect(DB_URL);
+const db = mongoose.connection;
 
 db.on('connected', function() {
   console.log(`Mongoose connection open to ${DB_URL}`)

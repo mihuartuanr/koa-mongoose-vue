@@ -1,6 +1,40 @@
-function register(ctx) {
-  console.log('------register=======');
-  ctx.body='register';
+const userModel = require('../model/user');
+
+async function register(ctx) {
+  const { account, password } = ctx.request.body;
+  if(!account.trim() || !password.trim() ){
+    ctx.body = {
+      code: '403',
+      data: null,
+      msg: '参数不合法'
+    };
+    return;
+  }
+  const user = await userModel.findOne({
+    account
+  });
+  if(user) {
+    ctx.body = {
+      code: '403',
+      data: null,
+      msg: '帐号已被注册'
+    }
+    return;
+  }
+  const newUser = await new userModel({
+    account,
+    password
+  }).save();
+  ctx.body = {
+    code: '200',
+    data: newUser,
+    msg: '注册成功'
+  }
+}
+function login(ctx) {
+  console.log('------login=======');
+  const { account, password } = ctx.request.body;
+
 }
 function list(ctx) {
   console.log('------list=======');
@@ -21,6 +55,7 @@ function drop(ctx){
 
 module.exports = {
   register,
+  login,
   list,
   get,
   update,
