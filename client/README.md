@@ -1,10 +1,9 @@
-# jing
-
+# 前端项目
 > A Vue.js project
 
-## Build Setup
+## 构建命令
 
-``` bash
+```bash
 # install dependencies
 npm install
 
@@ -17,5 +16,23 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 ```
+## 初始化
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+使用命令行初始化，全局安装`@vue/cli@4.1.2`、`@vue/cli-init@4.1.2`。
+
+```bash
+# 项目初始化
+vue init webpack ./
+
+# UI库
+npm i -S element-ui
+
+# 支持scss，sass-loader不能超过7，否则，会解析不了scss。
+npm i -D node-sass sass-loader@7
+
+# 注册、登陆加密
+npm i -S crypto-js
+
+# 网络请求
+npm i -S axios
+```
