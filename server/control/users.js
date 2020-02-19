@@ -1,3 +1,4 @@
+const auth = require('../utils/auth');
 const userModel = require('../model/user');
 
 async function register(ctx) {
@@ -46,9 +47,18 @@ async function login(ctx) {
     password
   });
   if(user) {
+    const token = auth.sign.call(
+      ctx,
+      {
+        id: user.id,
+        account
+      }
+    )
     ctx.body = {
       code: '200',
-      data: user,
+      data: {
+        token
+      },
       msg: '登陆成功'
     }
     return;

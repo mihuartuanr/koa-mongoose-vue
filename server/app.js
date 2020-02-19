@@ -1,15 +1,52 @@
 const koa = require('koa');
 const bodyParser = require('koa-body');
-var cors = require('koa2-cors');
+const cors = require('koa2-cors');
+const koaJwt = require('koa-jwt');
 const router = require('./router/index');
+const { secret, authKey } = require('./config/auth');
+const { vertify } = require('./utils/auth');
 
 const app = new koa();
 
 app.use(cors());
+
+//中间件：鉴权
+app.use(function(ctx, next){
+  return next().catch((err) => {
+    if(err.message == 'jwt expired'){
+      //通过jsonwebtoken返回的err.message判断token认证失败的类型
+      ctx.body = 'jwt超时'
+    }
+    if (401 == err.status) {
+      ctx.status = 401;
+      ctx.body = '请先登陆\n';
+    } else {
+      throw err;
+    }
+  });
+});
+app.use(koaJwt({
+  secret,
+  key: authKey,
+  // jwt是否被废除
+  isRevoked: vertify
+}).unless({
+  custom: function(ctx) {
+    const { method, path, query } = ctx;
+    if(path === '/'){
+      return true;
+    }
+    if(path === '/users' && query.action) {
+      return true;
+    }
+    return false;
+  }
+}));
 //中间件：payload解析
 app.use(bodyParser());
 //中间件： 路由
 app.use(...router.routes).use(...router.allowedMethods);
+
 
 app.on('error', (err, ctx) => {
   console.error('server error', err, ctx)

@@ -1,6 +1,26 @@
-function auth(ctx, next){
-  console.log('-------auth=========');
-  next();
-}
+const jwt = require('jsonwebtoken')
+const { secret } = require('../config/auth')
 
-module.exports = auth;
+const AUTHORIZATION = 'Authorization';
+const expiresIn = '2h';
+
+module.exports = {
+  sign: function(payload) {
+    const token = jwt.sign(payload, secret, {
+      expiresIn
+    });
+    this.set(AUTHORIZATION, `Bearer ${token}`)
+
+    return token;
+  },
+  vertify: function(ctx, decodeToken, token){
+    let result = true;
+    try{
+      jwt.verify(token, secret);
+      result = false;
+    }catch(e) {
+
+    }
+    return result;
+  }
+}
