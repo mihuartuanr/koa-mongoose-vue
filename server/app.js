@@ -16,10 +16,11 @@ app.use(function(ctx, next){
     if(err.message == 'jwt expired'){
       //通过jsonwebtoken返回的err.message判断token认证失败的类型
       ctx.body = 'jwt超时'
+      return
     }
     if (401 == err.status) {
       ctx.status = 401;
-      ctx.body = '请先登陆\n';
+      ctx.body = `${err.message}\n请先登陆`;
     } else {
       throw err;
     }

@@ -53,8 +53,12 @@ export default {
               password: md5(password).toString()
             }
           )
-          if (res.data && res.data.code === '200') {
+          if (res && res.code === '200') {
+            localStorage.setItem('token', res.data.token)
             this.$router.replace('/home')
+          } else {
+            this.$router.push('/')
+            this.$message.error(res.msg)
           }
         }
       } catch (err) {
@@ -75,6 +79,8 @@ export default {
           )
           if (res.data.code === '200') {
             this.$refs[this.formName].resetFields()
+          } else {
+            this.$message.error(res.msg)
           }
         }
       } catch (err) {

@@ -71,7 +71,11 @@ async function login(ctx) {
 }
 function list(ctx) {
   console.log('------list=======');
-  ctx.body='list';
+  ctx.body = {
+    code: '200',
+    data: null,
+    msg: 'list'
+  };
 }
 function get(ctx){
   console.log('------get=======');
