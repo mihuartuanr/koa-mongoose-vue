@@ -12,6 +12,6 @@ app.use(bodyParser());
 app.use(...router.routes).use(...router.allowedMethods);
 
 app.on('error', (err, ctx) => {
-  log.error('server error', err, ctx)
+  console.error('server error', err, ctx)
 });
 module.exports = app;

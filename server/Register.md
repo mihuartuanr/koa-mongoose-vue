@@ -6,12 +6,13 @@
 ```
 // 在router中间件前方，注册koa-body；
 app.use(bodyParser());
-
+// 在ctx.request.body中获取载荷payload；
 const {account, password} = ctx.request.body;
 
 const user = await userModel.findOne({
   account
 });
+// 服务contentType由ctx.body的值的数据类型决定，数据返回形式统一（ctx.body = ）。
 if(user) {
   ctx.body = {
     code: '403',

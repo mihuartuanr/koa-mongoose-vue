@@ -31,10 +31,33 @@ async function register(ctx) {
     msg: '注册成功'
   }
 }
-function login(ctx) {
-  console.log('------login=======');
+async function login(ctx) {
   const { account, password } = ctx.request.body;
-
+  if(!account || !password) {
+    ctx.body = {
+      code: '404',
+      data: null,
+      msg: '参数不合法'
+    };
+    return;
+  }
+  const user = await userModel.findOne({
+    account,
+    password
+  });
+  if(user) {
+    ctx.body = {
+      code: '200',
+      data: user,
+      msg: '登陆成功'
+    }
+    return;
+  }
+  ctx.body = {
+    code: '404',
+    data: null,
+    msg: '帐号/密码错误'
+  }
 }
 function list(ctx) {
   console.log('------list=======');

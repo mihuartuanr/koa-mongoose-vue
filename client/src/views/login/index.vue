@@ -17,7 +17,7 @@
 
 <script>
 import md5 from 'crypto-js/md5'
-import http from '../utils/http'
+import http from '@/utils/http'
 
 export default {
   name: 'Login',
@@ -53,7 +53,9 @@ export default {
               password: md5(password).toString()
             }
           )
-          console.log('----login====', res)
+          if (res.data && res.data.code === '200') {
+            this.$router.replace('/home')
+          }
         }
       } catch (err) {
         console.error(err)
@@ -71,7 +73,9 @@ export default {
               password: md5(password).toString()
             }
           )
-          console.log('----register====', res)
+          if (res.data.code === '200') {
+            this.$refs[this.formName].resetFields()
+          }
         }
       } catch (err) {
         console.error(err)
@@ -83,8 +87,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-.form-login {
-  width: 600px;
-  margin: 0 auto;
-}
+@import './index.scss'
 </style>
