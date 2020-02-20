@@ -47,13 +47,10 @@ async function login(ctx) {
     password
   });
   if(user) {
-    const token = auth.sign.call(
-      ctx,
-      {
-        id: user.id,
-        account
-      }
-    )
+    const token = auth.sign({
+      id: user.id,
+      account
+    })
     ctx.body = {
       code: '200',
       data: {

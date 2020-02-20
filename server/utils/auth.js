@@ -9,7 +9,6 @@ module.exports = {
     const token = jwt.sign(payload, secret, {
       expiresIn
     });
-    this.set(AUTHORIZATION, `Bearer ${token}`)
 
     return token;
   },
