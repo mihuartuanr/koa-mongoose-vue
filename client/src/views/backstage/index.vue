@@ -1,6 +1,6 @@
 <template>
-  <el-container>
-    <el-aside>
+  <el-container class="backstage-container">
+    <el-aside class="backstage-aside">
       <el-menu
         default-active="1"
         class="backstage-menu"
@@ -28,8 +28,23 @@
         </el-menu-item>
       </el-menu>
     </el-aside>
-    <el-main>
+    <el-main class="backstage-main">
       <router-view />
     </el-main>
   </el-container>
 </template>
+<style lang="scss" scoped>
+.backstage-container {
+  height: 100%;
+
+  .backstage-menu {
+    height: 100%;
+    overflow-y: auto;
+  }
+
+  .backstage-main {
+    margin-left: 20px;
+    background: #fff;
+  }
+}
+</style>

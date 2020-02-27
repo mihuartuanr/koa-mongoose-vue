@@ -54,7 +54,10 @@ async function login(ctx) {
     ctx.body = {
       code: '200',
       data: {
-        token
+        token,
+        id: user.id,
+        account,
+        alias: user.alias
       },
       msg: '登陆成功'
     }
@@ -66,17 +69,33 @@ async function login(ctx) {
     msg: '帐号/密码错误'
   }
 }
-function list(ctx) {
+async function list(ctx) {
+  const users = await userModel.find();
   console.log('------list=======');
   ctx.body = {
     code: '200',
-    data: null,
+    data: users,
     msg: 'list'
   };
 }
-function get(ctx){
-  console.log('------get=======');
-  ctx.body='get';
+async function get(ctx){
+  const { id } = ctx.params;
+  const user = await userModel.findOne({
+    _id: id
+  }).select('+avatar +alias +telephone +email +department +job +role');
+  if(user) {
+    ctx.body = {
+      code: '200',
+      data: user,
+      msg: '成功'
+    }
+  } else {
+    ctx.body = {
+      code: '403',
+      data: null,
+      msg: '用户不存在'
+    }
+  }
 }
 function update(ctx){
   console.log('------update=======');

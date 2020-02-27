@@ -13,7 +13,6 @@ const instance = axios.create({
 instance.interceptors.request.use(async (config) => {
   const token = await localStorage.getItem('token')
   token && (config.headers['Authorization'] = `Bearer ${token}`)
-  console.log('------request===========', config)
   return config
 }, function (error) {
   console.log('------request===========', error)
@@ -30,6 +29,10 @@ instance.interceptors.response.use(
     if (/^40./.test(res.status)) {
       router.push('/')
       await localStorage.removeItem('token')
+      return {
+        code: '401',
+        msg: '请重新登陆'
+      }
     }
     console.log('------response=======', res)
     return res

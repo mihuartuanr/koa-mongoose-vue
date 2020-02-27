@@ -54,11 +54,16 @@ export default {
             }
           )
           if (res && res.code === '200') {
+            const {token, ...user} = res.data
             localStorage.setItem('token', res.data.token)
+            this.$store.commit('putLoginer', user)
             this.$router.replace('/home')
           } else {
             this.$router.push('/')
-            this.$message.error(res.msg)
+            this.$message({
+              type: 'error',
+              message: res.msg
+            })
           }
         }
       } catch (err) {
@@ -80,7 +85,10 @@ export default {
           if (res.code === '200') {
             this.$refs[this.formName].resetFields()
           } else {
-            this.$message.error(res.msg)
+            this.$message({
+              type: 'error',
+              message: res.msg
+            })
           }
         }
       } catch (err) {
@@ -88,12 +96,15 @@ export default {
       }
     }
   },
-  created () {
-    const res = http.get('/users')
+  async created () {
+    const res = await http.get('/users')
     if (res.code === '200') {
       this.$router.replace('/home')
     } else {
-      this.$message.error(res.msg)
+      this.$message({
+        type: 'error',
+        message: res.msg
+      })
     }
   }
 }

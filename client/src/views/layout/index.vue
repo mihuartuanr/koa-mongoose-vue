@@ -30,7 +30,7 @@
             <i class="el-icon-setting"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item disabled>登录用户</el-dropdown-item>
+            <el-dropdown-item disabled>{{user}}</el-dropdown-item>
             <el-dropdown-item command='backstage'>后台管理</el-dropdown-item>
             <el-dropdown-item command='logout'>登出</el-dropdown-item>
           </el-dropdown-menu>
@@ -43,8 +43,6 @@
   </el-container>
 </template>
 <script>
-import http from '@/utils/http'
-
 export default {
   methods: {
     backToHome () {
@@ -77,9 +75,13 @@ export default {
       }
     }
   },
-  async created () {
-    const users = await http.get('/users')
-    console.info(users)
+  computed: {
+    user () {
+      if (this.$store.state.loginer) {
+        const { account, alias } = this.$store.state.loginer
+        return alias || account
+      }
+    }
   }
 }
 </script>
