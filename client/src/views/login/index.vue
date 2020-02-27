@@ -77,7 +77,7 @@ export default {
               password: md5(password).toString()
             }
           )
-          if (res.data.code === '200') {
+          if (res.code === '200') {
             this.$refs[this.formName].resetFields()
           } else {
             this.$message.error(res.msg)
@@ -86,6 +86,14 @@ export default {
       } catch (err) {
         console.error(err)
       }
+    }
+  },
+  created () {
+    const res = http.get('/users')
+    if (res.code === '200') {
+      this.$router.replace('/home')
+    } else {
+      this.$message.error(res.msg)
     }
   }
 }

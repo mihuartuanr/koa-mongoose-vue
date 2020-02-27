@@ -36,3 +36,12 @@ npm i -S crypto-js
 # 网络请求,koa2-cors使后端koa支持跨域
 npm i -S axios
 ```
+
+
+## 代办
+
+* 修改用户信息
+  * 样式CSS Modules
+* 修改企业信息
+
+* 建立审批和用户关系
