@@ -2,7 +2,7 @@ const koa = require('koa');
 const bodyParser = require('koa-body');
 const cors = require('koa2-cors');
 const koaJwt = require('koa-jwt');
-const router = require('./router/index');
+const routes = require('./router/index');
 const { secret, authKey } = require('./config/auth');
 const { vertify } = require('./utils/auth');
 
@@ -45,8 +45,11 @@ app.use(koaJwt({
 }));
 //中间件：payload解析
 app.use(bodyParser());
-//中间件： 路由
-app.use(...router.routes).use(...router.allowedMethods);
+//中间件： 路由 --> 不支持一次性注册多个中间件
+// app.use(...router.routes).use(...router.allowedMethods);
+routes.forEach(route => {
+  app.use(route);
+});
 
 
 app.on('error', (err, ctx) => {

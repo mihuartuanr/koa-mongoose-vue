@@ -3,10 +3,7 @@
     <div class="panel-avatar">
       <el-upload
         class="avatar-uploader"
-        action=""
-        :show-file-list="false"
-        :on-success="handleAvatarSuccess"
-        :before-upload="beforeAvatarUpload">
+        v-bind="uploadForm">
         <img v-if="imageUrl" :src="imageUrl" class="avatar">
         <i v-else class="el-icon-user"></i>
       </el-upload>
@@ -139,6 +136,16 @@ export default {
   },
   data () {
     return {
+      uploadForm: {
+        action: `//localhost:3000/assets/avators/${this.$store.state.loginer.id}`,
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        multiple: false,
+        'show-file-list': false,
+        'on-success': this.handleAvatarSuccess,
+        'before-upload': this.beforeAvatarUpload
+      },
       imageUrl: '',
       loginer: {},
       dialogForm: {
