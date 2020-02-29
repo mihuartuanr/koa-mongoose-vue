@@ -22,16 +22,7 @@ const routes = [
   {
     path: '/:category/:id',
     method: 'POST',
-    handle: upload,
-    middlewares: [
-      bodyParser({
-        multipart: true,
-        formidable: {
-          uploadDir: '/Users/zhangchao/Demos/jingData/server/assets/avators',
-          keepExtensions: true
-        }
-      })
-    ]
+    handle: upload
   },
   {
     path: '/:category/:id',

@@ -1,5 +1,7 @@
 const koa = require('koa');
+const path = require('path');
 const bodyParser = require('koa-body');
+const koaStatic = require('koa-static');
 const cors = require('koa2-cors');
 const koaJwt = require('koa-jwt');
 const routes = require('./router/index');
@@ -8,6 +10,8 @@ const { vertify } = require('./utils/auth');
 
 const app = new koa();
 
+// 中间件：指定静态资源路径 vs. 使其与动态资源分离
+app.use(koaStatic(path.join(__dirname, 'public/')))
 app.use(cors());
 
 //中间件：鉴权
@@ -37,6 +41,9 @@ app.use(koaJwt({
     if(path === '/'){
       return true;
     }
+    if(/^\/public/.test(path)) {
+      return true;
+    }
     if(path === '/users' && query.action) {
       return true;
     }
@@ -44,7 +51,13 @@ app.use(koaJwt({
   }
 }));
 //中间件：payload解析
-app.use(bodyParser());
+app.use(bodyParser({
+  multipart: true,
+  formidable: {
+    uploadDir: path.resolve(__dirname, './public/temp'),
+    keepExtensions: true
+  }
+}));
 //中间件： 路由 --> 不支持一次性注册多个中间件
 // app.use(...router.routes).use(...router.allowedMethods);
 routes.forEach(route => {
