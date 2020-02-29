@@ -1,8 +1,30 @@
+.panel-container {
+  @include flex($item: flex-start);
+
+  .panel-avatar {
+    width: 160px;
+  }
+  .panel-main {
+    flex: 1;
+    color: #525975;
+    line-height: 2;
+    padding: 0 40px;
+    font-size: 14px;
+
+    .panel-title {
+      color: #2e3242;
+      font-size: 24px;
+    }
+  }
+  .panel-controls {
+    margin-top: 20px;
+  }
+}
 .avatar-uploader{
   /deep/ {
     .el-upload {
       border: 1px dashed #d9d9d9;
-      border-radius: 6px;
+      border-radius: 100px;
       cursor: pointer;
       position: relative;
     }
@@ -11,8 +33,8 @@
       border-color: #409EFF;
     }
 
-    .avatar-uploader-icon {
-      font-size: 28px;
+    .el-icon-user {
+      font-size: 70px;
       color: #8c939d;
       width: 160px;
       height: 160px;

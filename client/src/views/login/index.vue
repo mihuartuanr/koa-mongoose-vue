@@ -100,11 +100,6 @@ export default {
     const res = await http.get('/users')
     if (res.code === '200') {
       this.$router.replace('/home')
-    } else {
-      this.$message({
-        type: 'error',
-        message: res.msg
-      })
     }
   }
 }

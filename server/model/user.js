@@ -1,6 +1,9 @@
 const mongoose = require('../db/index');
 
 const userSchema = mongoose.Schema({
+  __v: {
+    select: false
+  },
   avatar: {
     type: String,
     select: false,

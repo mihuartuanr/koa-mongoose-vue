@@ -80,26 +80,60 @@ async function list(ctx) {
 }
 async function get(ctx){
   const { id } = ctx.params;
-  const user = await userModel.findOne({
-    _id: id
-  }).select('+avatar +alias +telephone +email +department +job +role');
-  if(user) {
-    ctx.body = {
-      code: '200',
-      data: user,
-      msg: '成功'
+  try {
+    const user = await userModel.findOne({
+      _id: id
+    }).select('-_id -__v').select('+avatar +alias +telephone +email +department +job +role');
+    if(user) {
+      ctx.body = {
+        code: '200',
+        data: user,
+        msg: '成功'
+      }
+    } else {
+      ctx.body = {
+        code: '403',
+        data: null,
+        msg: '用户不存在'
+      }
     }
-  } else {
+  } catch (err) {
     ctx.body = {
-      code: '403',
-      data: null,
-      msg: '用户不存在'
+      code: '404',
+      data: {
+        _id: id
+      },
+      msg: '获取失败，请核对用户id'
     }
   }
 }
-function update(ctx){
-  console.log('------update=======');
-  ctx.body='update';
+async function update(ctx){
+  const payload = ctx.request.body;
+  const { id } = ctx.params;
+  try {
+    const user = await userModel.updateOne(
+      {
+        _id: id
+      },
+      {
+        ...payload
+      }
+    ).exec();
+    ctx.body= {
+      code: '200',
+      data: {
+        _id: id,
+        ...payload
+      },
+      msg: '成功'
+    };
+  } catch (err) {
+    ctx.body = {
+      code: '404',
+      data: payload,
+      msg: '更新失败，请核对用户id'
+    }
+  }
 }
 function drop(ctx){
   console.log('------drop=======');
