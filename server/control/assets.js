@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const koaRequest = require('koa2-request');
+// const koaRequest = require('koa2-request');
+const userModel = require('../model/user');
 const { checkDirExist } = require('../utils/dir');
 
 async function list (ctx) {
@@ -22,16 +23,34 @@ async function upload (ctx, next) {
     const writer = fs.createWriteStream(path.resolve(dir, file.name));
     reader.pipe(writer);
 
-    await koaRequest({
-      url: `${ctx.origin}/users/${id}`,
-      method: 'patch',
-      headers: {
-        Authorization: token
-      },
-      form: {
-        avatar: remotePath
-      }
-    });
+    // await koaRequest({
+    //   url: `${ctx.origin}/users/${id}`,
+    //   method: 'patch',
+    //   headers: {
+    //     Authorization: token
+    //   },
+    //   form: {
+    //     avatar: remotePath
+    //   }
+    // });
+    try {
+      await userModel.updateOne(
+        {
+          _id: id
+        },
+        {
+          avatar: remotePath
+        }
+      ).exec();
+    } catch (err) {
+      console.error(err)
+      ctx.body = {
+        code: '404',
+        data: null,
+        msg: '上传失败'
+      };
+      return;
+    }
     // 删除文件
     fs.unlinkSync(filePath)
     ctx.body = {
