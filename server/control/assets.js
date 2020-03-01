@@ -1,13 +1,16 @@
 const fs = require('fs');
 const path = require('path');
+const koaRequest = require('koa2-request');
 const { checkDirExist } = require('../utils/dir');
 
 async function list (ctx) {
   ctx.body = 'assets list'
 }
-async function upload (ctx) {
+async function upload (ctx, next) {
   const file = Object.values(ctx.request.files)[0];
   const { category, id } = ctx.params;
+  const token = ctx.headers.authorization;
+  const remotePath = `${ctx.origin}/${category}/${id}/${file.name}`;
   const filePath = file.path;
   // 最终要保存到的文件夹路径
   const dir = path.join(__dirname,`../public/${category}/${id}/`);
@@ -18,14 +21,28 @@ async function upload (ctx) {
     const reader = fs.createReadStream(filePath);
     const writer = fs.createWriteStream(path.resolve(dir, file.name));
     reader.pipe(writer);
+
+    await koaRequest({
+      url: `${ctx.origin}/users/${id}`,
+      method: 'patch',
+      headers: {
+        Authorization: token
+      },
+      form: {
+        avatar: remotePath
+      }
+    });
+    // 删除文件
+    fs.unlinkSync(filePath)
     ctx.body = {
       code: '200',
       data: {
-        filePath: `${ctx.origin}/${category}/${id}/${file.name}`
+        filePath: remotePath
       },
       msg: '上传成功'
     }
   } catch (err) {
+    console.error(err)
     ctx.body = {
       code: '404',
       data: null,

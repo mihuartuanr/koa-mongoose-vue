@@ -137,7 +137,7 @@ export default {
   data () {
     return {
       uploadForm: {
-        action: `//localhost:3000/assets/avators/${this.$store.state.loginer.id}`,
+        action: `//localhost:3000/assets/avatars/${this.$store.state.loginer.id}`,
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
@@ -199,6 +199,7 @@ export default {
     if (res.code === '200') {
       this.loginer = res.data
       this.dialogForm.form = {...res.data}
+      this.imageUrl = res.data.avatar;
     } else {
       this.$message({
         type: 'error',
