@@ -10,7 +10,7 @@ async function list (ctx) {
 async function upload (ctx, next) {
   const file = Object.values(ctx.request.files)[0];
   const { category, id } = ctx.params;
-  const token = ctx.headers.authorization;
+  // const token = ctx.headers.authorization;
   const remotePath = `${ctx.origin}/${category}/${id}/${file.name}`;
   const filePath = file.path;
   // 最终要保存到的文件夹路径
