@@ -120,7 +120,13 @@ export default {
                 ...res.data
               }
             )
-            this.$refs[this.dialogForm.formRef].resetFields()
+            this.$set(this.dialogForm, 'form', Object.assign(
+              {},
+              this.dialogForm.form,
+              {
+                ...res.data
+              }
+            ))
             this.dialogForm.visible = false
           } else {
             this.$message({
