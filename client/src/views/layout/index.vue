@@ -52,7 +52,8 @@ export default {
     },
     async logout () {
       this.$router.push('/')
-      await localStorage.removeItem('token')
+      await localStorage.clear()
+      this.$store.commit('resetVuex')
     },
     navigateToBackstage () {
       this.$router.push({

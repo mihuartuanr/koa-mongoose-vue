@@ -26,6 +26,7 @@ const approvalSchema = Schema({
   },
   creator: {
     type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   createtime: {
@@ -35,6 +36,7 @@ const approvalSchema = Schema({
   },
   modifier: {
     type: Schema.Types.ObjectId,
+    ref: 'User',
     required: true
   },
   latesttime: {

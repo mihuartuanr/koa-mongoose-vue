@@ -1,6 +1,7 @@
 const mongoose = require('../db/index');
 
-const userSchema = mongoose.Schema({
+const Schema = mongoose.Schema;
+const userSchema = Schema({
   __v: {
     select: false
   },
@@ -40,7 +41,13 @@ const userSchema = mongoose.Schema({
   role: {
     type: String,
     select: false
-  }
+  },
+  approves: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Approve'
+    }
+  ]
 })
 
 module.exports = mongoose.model('User', userSchema);

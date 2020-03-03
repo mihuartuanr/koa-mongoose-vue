@@ -1,5 +1,6 @@
 import axios from 'axios'
 import router from '@/router'
+import store from '@/stores'
 import { BASE_URL, TIMEOUT } from '@/config/http'
 
 const instance = axios.create({
@@ -28,7 +29,8 @@ instance.interceptors.response.use(
     }
     if (/^40./.test(res.status)) {
       router.push('/')
-      await localStorage.removeItem('token')
+      await localStorage.clear()
+      store.commit('resetVuex')
       return {
         code: '401',
         msg: '请重新登陆'

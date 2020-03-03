@@ -111,7 +111,7 @@ async function update(ctx){
   const payload = ctx.request.body;
   const { id } = ctx.params;
   try {
-    const user = await userModel.updateOne(
+    await userModel.updateOne(
       {
         _id: id
       },

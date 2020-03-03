@@ -8,9 +8,12 @@ const vuexLocal = new VuexPersistence({
   storage: window.localStorage
 })
 
+const InitState = {
+  loginer: {},
+}
 export default new Vuex.Store({
   state: {
-    loginer: null
+    ...InitState
   },
   mutations: {
     putLoginer (state, loginer) {
@@ -19,6 +22,9 @@ export default new Vuex.Store({
         state.loginer,
         loginer
       )
+    },
+    resetVuex (state) {
+      Object.assign(state, InitState)
     }
   },
   plugins: [vuexLocal.plugin]
