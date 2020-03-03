@@ -5,18 +5,18 @@ const { checkDirExist } = require('../utils/dir');
 const baseLogDir = path.resolve(__dirname, '../logs');
 // 错误日志
 const errorDir = 'error';
-const errorFileName = 'error.log';
+const errorFileName = 'error';
 const errorDirPath = path.resolve(baseLogDir, errorDir);
 const errorLogPath = path.resolve(errorDirPath, errorFileName);
 // 访问日志
 const accessDir = 'access';
-const accessFileName = 'access.log';
+const accessFileName = 'access';
 const accessDirPath = path.resolve(baseLogDir, accessDir);
 const accessLogPath = path.resolve(accessDirPath, accessFileName);
 
 // 响应日志
 const responseDir = 'response';
-const responseFileName = 'response.log';
+const responseFileName = 'response';
 const responseDirPath = path.resolve(baseLogDir, responseDir);
 const responseLogPath = path.resolve(responseDirPath, responseFileName);
 
@@ -33,7 +33,7 @@ module.exports = {
       type: 'dateFile', //https://github.com/log4js-node/log4js-node/blob/master/docs/dateFile.md
       filename: errorLogPath, // 定义生成文件的路径。
       daysToKeep: 7, // 保存7天日志，大于7天的，删除；
-      pattern: '.yyyy-MM-dd',
+      pattern: '.yyyy-MM-dd.log',
       alwaysIncludePattern: true, // 只有该属性设置为true，才会以pattern追加重命名filename
       // keepFileExt: true //不起作用
     },
@@ -41,7 +41,7 @@ module.exports = {
       type: 'dateFile',
       filename: accessLogPath,
       daysToKeep: 7, // 保存7天日志，大于7天的，删除；
-      pattern: '.yyyy-MM-dd',
+      pattern: '.yyyy-MM-dd.log',
       alwaysIncludePattern: true, // 只有该属性设置为true，才会以pattern追加重命名filename
       // keepFileExt: true //不起作用
     },
@@ -49,7 +49,7 @@ module.exports = {
       type: 'dateFile',
       filename: responseLogPath,
       daysToKeep: 7, // 保存7天日志，大于7天的，删除；
-      pattern: '-yyyy-MM-dd',
+      pattern: '-yyyy-MM-dd.log',
       alwaysIncludePattern: true, // 只有该属性设置为true，才会以pattern追加重命名filename
       // keepFileExt: true //不起作用
     }
