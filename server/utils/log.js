@@ -21,7 +21,7 @@ logUtil.logError = function (ctx, error, resTime) {
 // 封装请求日志
 logUtil.logAccess = function (ctx, resTime) {
   if (ctx) {
-    accessLogger.info(formatReqLog(ctx, resTime));
+    accessLogger.info(formatAccessLog(ctx, resTime));
   }
 };
 // 封装响应日志
@@ -37,31 +37,31 @@ logUtil.logInfo = function (info) {
   }
 };
 
-var formatInfo = function (info) {
-  var logText = '';
+const formatInfo = function (info) {
+  let logText = '';
   // 响应日志开始
-  logText += '\n' + '***************info log start ***************' + '\n';
+  logText += '\n' + '*************** console log start ***************' + '\n';
 
   // 响应内容
-  logText += 'info detail: ' + '\n' + JSON.stringify(info) + '\n';
+  logText += 'console detail: ' + '\n' + JSON.stringify(info) + '\n';
 
   // 响应日志结束
-  logText += '*************** info log end ***************' + '\n';
+  logText += '*************** console log end ***************' + '\n';
 
   return logText;
 };
 
 // 格式化响应日志
-var formatRes = function (ctx, resTime) {
-  var logText = '';
+const formatRes = function (ctx, resTime) {
+  let logText = '';
   // 响应日志开始
   logText += '\n' + '*************** response log start ***************' + '\n';
 
   // 添加请求日志
-  logText += formatReqLog(ctx.request, resTime);
+  logText += formatAccessLog(ctx, resTime);
 
   // 响应状态码
-  logText += 'response status: ' + ctx.status + '\n';
+  logText += '\n' + 'response status: ' + ctx.status + '\n';
 
   // 响应内容
   logText += 'response body: ' + '\n' + JSON.stringify(ctx.body) + '\n';
@@ -73,17 +73,17 @@ var formatRes = function (ctx, resTime) {
 };
 
 // 格式化错误日志
-var formatError = function (ctx, err, resTime) {
-  var logText = '';
+const formatError = function (ctx, err, resTime) {
+  let logText = '';
 
   // 错误信息开始
   logText += '\n' + '*************** error log start ***************' + '\n';
 
   // 添加请求日志
-  logText += formatReqLog(ctx.request, resTime);
+  logText += formatAccessLog(ctx, resTime);
 
   // 错误名称
-  logText += 'err name: ' + err.name + '\n';
+  logText += '\n' + 'err name: ' + err.name + '\n';
   // 错误信息
   logText += 'err message: ' + err.message + '\n';
   // 错误详情
@@ -96,29 +96,23 @@ var formatError = function (ctx, err, resTime) {
 };
 
 // 格式化请求日志
-var formatReqLog = function (req, resTime) {
-  var logText = '';
-
-  var method = req.method;
-  // 访问方法
-  logText += '\n' + 'request method: ' + method + '\n';
-
-  // 请求原始地址
-  logText += 'request originalUrl:  ' + req.originalUrl + '\n';
-
+const formatAccessLog = function (ctx, resTime) {
+  const { method, originalUrl, ip, query, params, body } = ctx.request;
+  let logText = '';
   // 客户端ip
-  logText += 'request client ip:  ' + req.ip + '\n';
-
-  // 开始时间
-  //   var startTime;
+  logText += 'request client ip: ' + ip + '\n';
+  // 客户端
+  logText += 'request userAgent: ' + ctx.header['user-agent'] + '\n';
+  // 访问协议
+  logText += 'request protocol: ' + ctx.protocol + '\n';
+  // 访问方法
+  logText += 'request method: ' + method + '\n';
+  // 请求原始地址
+  logText += 'request originalUrl:  ' + originalUrl + '\n';
   // 请求参数
-  if (method === 'GET') {
-    logText += 'request query:  ' + JSON.stringify(req.query) + '\n';
-    // startTime = req.query.requestStartTime;
-  } else {
-    logText += 'request body: ' + '\n' + JSON.stringify(req.body) + '\n';
-    // startTime = req.body.requestStartTime;
-  }
+  logText += params ? 'request params:  ' + JSON.stringify(params) + '\n' : '';
+  logText += query ? 'request query:  ' + JSON.stringify(query) + '\n' : '';
+  logText += body ? 'request body:  ' + JSON.stringify(body) + '\n' : '';
   // 服务器响应时间
   logText += 'response time: ' + resTime + '\n';
 
