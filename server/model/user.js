@@ -7,7 +7,6 @@ const userSchema = Schema({
   },
   avatar: {
     type: String,
-    select: false,
   },
   account: {
     type: String,
@@ -20,7 +19,6 @@ const userSchema = Schema({
   },
   alias: {
     type: String,
-    select: false
   },
   telephone: {
     type: String,
@@ -45,7 +43,8 @@ const userSchema = Schema({
   approves: [
     {
       type: Schema.Types.ObjectId,
-      ref: 'Approve'
+      ref: 'Approve',
+      select: false
     }
   ]
 })

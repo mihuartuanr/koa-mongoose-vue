@@ -1,0 +1,11 @@
+.approve-module {
+  .btns-wrap {
+    margin-bottom: 20px;
+    @include flex($content: flex-end);
+  }
+  /deep/ {
+    .btn-drop {
+      margin-left: 16px;
+    }
+  }
+}

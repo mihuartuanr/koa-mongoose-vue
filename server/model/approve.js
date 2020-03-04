@@ -31,8 +31,7 @@ const approvalSchema = Schema({
   },
   createtime: {
     type: Number,
-    required: true,
-    select: false,
+    required: true
   },
   modifier: {
     type: Schema.Types.ObjectId,

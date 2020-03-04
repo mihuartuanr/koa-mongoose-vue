@@ -9,7 +9,7 @@ const vuexLocal = new VuexPersistence({
 })
 
 const InitState = {
-  loginer: {},
+  loginer: {}
 }
 export default new Vuex.Store({
   state: {

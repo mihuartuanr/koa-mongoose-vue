@@ -205,7 +205,7 @@ export default {
     if (res.code === '200') {
       this.loginer = res.data
       this.dialogForm.form = {...res.data}
-      this.imageUrl = res.data.avatar;
+      this.imageUrl = res.data.avatar
     } else {
       this.$message({
         type: 'error',

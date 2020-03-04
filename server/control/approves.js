@@ -29,7 +29,7 @@ async function list(ctx) {
   try {
     const approves = await approveModel.find({
       creator: ctx.state.auth.id
-    });
+    }).populate('creator modifier');
     ctx.body = {
       code: '200',
       data: approves,
