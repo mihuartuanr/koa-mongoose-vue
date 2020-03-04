@@ -166,7 +166,7 @@ export default {
           }
         } else {
           const { _id, name, category, description, status} = this.dialogForm.form
-          const res = await http.post(
+          const res = await http.patch(
             `/approves/${_id}`,
             {
               name,
