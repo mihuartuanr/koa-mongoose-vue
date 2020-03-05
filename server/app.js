@@ -7,6 +7,7 @@ const koaJwt = require('koa-jwt');
 const routes = require('./router/index');
 const { secret, authKey } = require('./config/auth');
 const { vertify } = require('./utils/auth');
+const logUtil = require('./utils/log');
 
 const app = new koa();
 
@@ -17,6 +18,7 @@ app.use(cors());
 //中间件：鉴权
 app.use(function(ctx, next){
   return next().catch((err) => {
+    logUtil.logError(ctx, err)
     if(err.message == 'jwt expired'){
       //通过jsonwebtoken返回的err.message判断token认证失败的类型
       ctx.body = 'jwt超时'
